@@ -1,20 +1,22 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { User } from '../components/User'
 import { Page } from '../components/Page'
 import { getPhotos } from '../actions/PageActions'
 
-class App extends Component {
+
+class PageContainer extends Component {
     render() {
-        const { user, page, getPhotosAction } = this.props
+        console.log('render PageContainer')
+        const { page, getPhotos } = this.props
         return (
-            <div className="app">
-                <Page photos={page.photos}
+            <div className="app" >
+                <Page photos={
+                    page.photos}
                     year={page.year}
                     isFetching={page.isFetching}
-                    getPhotos={getPhotosAction}
+                    error={page.error}
+                    getPhotos={getPhotos}
                 />
-                <User name={user.name} />
             </div>
         )
     }
@@ -22,18 +24,14 @@ class App extends Component {
 
 const mapStateToProps = store => {
     return {
-        user: store.user,
         page: store.page,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        getPhotosAction: year => dispatch(getPhotos(year)),
+        getPhotos: year => dispatch(getPhotos(year)),
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(PageContainer)
